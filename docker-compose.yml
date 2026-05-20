@@ -68,6 +68,24 @@ services:
     networks:
       - cloudforge-network
 
+  # ---------------------------------------------
+  # 4. Streamlit Frontend Service
+  # ---------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cloudforge-frontend
+    restart: on-failure
+    depends_on:
+      - backend
+    environment:
+      - API_BASE_URL=http://backend:8000/api/v1
+    ports:
+      - "8501:8501"
+    networks:
+      - cloudforge-network
+
 # ---------------------------------------------
 # Persistent Volumes Definition
 # ---------------------------------------------
