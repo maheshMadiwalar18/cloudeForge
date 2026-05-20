@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+  # ---------------------------------------------
+  # 1. PostgreSQL Database Service
+  # ---------------------------------------------
+  db:
+    image: postgres:15-alpine
+    container_name: cloudforge-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-cloudforge_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cloudforge_password}
+      POSTGRES_DB: ${POSTGRES_DB:-cloudforge_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - cloudforge-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cloudforge_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------
+  # 2. Redis Message Broker (for Background Queue)
+  # ---------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: cloudforge-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - cloudforge-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------
+  # 3. FastAPI Backend Service
+  # ---------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cloudforge-backend
+    # Restarts the API if it crashes, but prevents restart loops if stopped manually
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - ENVIRONMENT=development
+      # Internal Docker DNS automatically resolves 'db' and 'redis' to the containers
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-cloudforge_user}:${POSTGRES_PASSWORD:-cloudforge_password}@db:5432/${POSTGRES_DB:-cloudforge_db}
+      - REDIS_URL=redis://redis:6379/0
+    ports:
+      - "8000:8000"
+    networks:
+      - cloudforge-network
+
+# ---------------------------------------------
+# Persistent Volumes Definition
+# ---------------------------------------------
+volumes:
+  postgres_data:
+    name: cloudforge_pg_data
+  redis_data:
+    name: cloudforge_redis_data
+
+# ---------------------------------------------
+# Isolated Internal Network Definition
+# ---------------------------------------------
+networks:
+  cloudforge-network:
+    driver: bridge
