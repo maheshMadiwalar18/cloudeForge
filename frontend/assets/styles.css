@@ -1,0 +1,39 @@
+/* Custom Glassmorphism & Dark Mode Styles for CloudForge DevOps */
+
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+/* Modern dark mode background */
+.stApp {
+    background-color: #0e1117;
+}
+
+/* Typography Enhancements */
+h1, h2, h3 {
+    color: #4CAF50 !important;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+/* Style the analyze button */
+div[data-testid="stButton"] button {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+div[data-testid="stButton"] button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+/* Subtle styling for the sidebar */
+[data-testid="stSidebar"] {
+    background-color: #1a1c23;
+    border-right: 1px solid #2d3139;
+}
