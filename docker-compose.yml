@@ -9,9 +9,9 @@ services:
     container_name: cloudforge-db
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-cloudforge_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cloudforge_password}
-      POSTGRES_DB: ${POSTGRES_DB:-cloudforge_db}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -19,10 +19,12 @@ services:
     networks:
       - cloudforge-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cloudforge_user}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    cap_drop:
+      - ALL
 
   # ---------------------------------------------
   # 2. Redis Message Broker (for Background Queue)
@@ -61,12 +63,14 @@ services:
     environment:
       - ENVIRONMENT=development
       # Internal Docker DNS automatically resolves 'db' and 'redis' to the containers
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-cloudforge_user}:${POSTGRES_PASSWORD:-cloudforge_password}@db:5432/${POSTGRES_DB:-cloudforge_db}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       - REDIS_URL=redis://redis:6379/0
     ports:
       - "8000:8000"
     networks:
       - cloudforge-network
+    cap_drop:
+      - ALL
 
   # ---------------------------------------------
   # 4. Streamlit Frontend Service

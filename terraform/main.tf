@@ -52,6 +52,30 @@ resource "aws_iam_role_policy_attachment" "ssm_core" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+# Least-privilege: EC2 can only write to the specific application S3 bucket
+resource "aws_iam_role_policy" "s3_write" {
+  name = "${var.project_name}-s3-write"
+  role = aws_iam_role.ec2_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          aws_s3_bucket.app_bucket.arn,
+          "${aws_s3_bucket.app_bucket.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_instance_profile" "ec2_profile" {
   name = "${var.project_name}-ec2-profile"
   role = aws_iam_role.ec2_role.name
@@ -64,14 +88,9 @@ resource "aws_security_group" "app_sg" {
   name        = "${var.project_name}-sg"
   description = "Allow inbound traffic for application"
 
-  # Allow SSH (Port 22)
-  ingress {
-    description = "SSH Access"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Consider restricting to your specific IP for production
-  }
+  # NOTE: Port 22 (SSH) has been intentionally removed.
+  # Use AWS Systems Manager (SSM) Session Manager for secure shell access instead.
+  # This eliminates the attack surface of an open SSH port entirely.
 
   # Allow HTTP (Port 80)
   ingress {
@@ -105,6 +124,27 @@ resource "aws_security_group" "app_sg" {
 }
 
 # -----------------------------------------------------------
+# S3 Lifecycle Rule: Move old objects to Glacier to save costs
+# -----------------------------------------------------------
+resource "aws_s3_bucket_lifecycle_configuration" "app_bucket_lifecycle" {
+  bucket = aws_s3_bucket.app_bucket.id
+
+  rule {
+    id     = "archive-old-assets"
+    status = "Enabled"
+
+    transition {
+      days          = 30
+      storage_class = "GLACIER"
+    }
+
+    expiration {
+      days = 365
+    }
+  }
+}
+
+# -----------------------------------------------------------
 # Fetch Latest Amazon Linux 2023 AMI
 # -----------------------------------------------------------
 data "aws_ami" "amazon_linux_2023" {
@@ -113,7 +153,8 @@ data "aws_ami" "amazon_linux_2023" {
 
   filter {
     name   = "name"
-    values = ["al2023-ami-2023.*-x86_64"]
+    # Updated to arm64 to match the t4g.medium (Graviton) instance type
+    values = ["al2023-ami-2023.*-arm64"]
   }
 }
 

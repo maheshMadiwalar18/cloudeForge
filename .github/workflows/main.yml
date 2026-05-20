@@ -22,10 +22,10 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d
         with:
           python-version: '3.11'
           cache: 'pip' # Automatically caches dependencies for faster runs
@@ -71,10 +71,10 @@ jobs:
       
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -82,12 +82,12 @@ jobs:
           
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@8e539ec88fb8fa34c264a274df269d25514f7626
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/backend
           
       - name: Build Docker image locally (for scanning)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@4a13e500e55bc31b36bb1bbce6f18ed4c770d10b
         with:
           context: ./backend
           load: true # Keeps the image local instead of pushing
@@ -104,7 +104,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
           
       - name: Push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@4a13e500e55bc31b36bb1bbce6f18ed4c770d10b
         with:
           context: ./backend
           push: true

@@ -1,7 +1,7 @@
 # ==========================================
 # Stage 1: Build Stage (Dependency Resolution)
 # ==========================================
-FROM python:3.11-slim AS builder
+FROM python:3.11-slim@sha256:1a84fbe717ef74de30e065dc084f74d0e6f2bc8f3baaf83e7cfab3dc35f0ef74 AS builder
 
 # Set the working directory
 WORKDIR /build
@@ -24,7 +24,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # ==========================================
 # Stage 2: Production Stage (Lean Image)
 # ==========================================
-FROM python:3.11-slim
+FROM python:3.11-slim@sha256:1a84fbe717ef74de30e065dc084f74d0e6f2bc8f3baaf83e7cfab3dc35f0ef74
 
 # Security: Create a dedicated non-root user and group
 RUN groupadd -r appgroup && useradd -r -g appgroup appuser

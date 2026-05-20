@@ -17,7 +17,7 @@ variable "environment" {
 }
 
 variable "instance_type" {
-  description = "EC2 instance type"
+  description = "EC2 instance type. t4g.medium (Graviton ARM64) is ~20% cheaper than t3.medium with better performance."
   type        = string
-  default     = "t3.medium"
+  default     = "t4g.medium"
 }
