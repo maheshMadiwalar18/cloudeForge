@@ -5,7 +5,7 @@
 By utilizing static code scanning and LLMs (LangChain + OpenRouter), it seamlessly detects your tech stack and scaffolds:
 - 🐳 **Dockerfiles** & **docker-compose.yml**
 - ♾️ **GitHub Actions CI/CD** pipelines
-- 🏗️ **Terraform** Infrastructure-as-Code
+- 🏗️ **Terraform** -- Infrastructure-as-Code
 
 ---
 
