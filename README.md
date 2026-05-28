@@ -11,7 +11,7 @@ By utilizing static code scanning and LLMs (LangChain + OpenRouter), it seamless
 
 ## 🛠️ Tech Stack
 - **Backend Core**: FastAPI, Python 3.11, Pydantic, Uvicorn
-- **AI / Parsing Engine**: LangChain, PyGithub, GitPython
+- **AI / Parsing Engine**: LangChain, PyGithub, GitPython//
 - **Data & Message Queue**: PostgreSQL, Redis, Celery
 - **Infrastructure**: AWS (EC2, S3), Terraform, Docker
 
