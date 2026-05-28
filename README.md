@@ -19,7 +19,7 @@ By utilizing static code scanning and LLMs (LangChain + OpenRouter), it seamless
 - `backend/`: The FastAPI server containing the API routes, Git repository scanner, and LLM Orchestrator prompts.
 - `terraform/`: AWS infrastructure definitions (Security Groups, IAM Profiles, Auto-bootstrapped EC2).
 - `docker-compose.yml`: The local development stack orchestrating the API, Postgres, and Redis.
-- `docs/`: In-depth architectural designs, DevSecOps reports, and cost analyses.
+- `docs/`: In-depth architectural designs, DevSecOps reports, and cost analyses....
 
 ---
 
