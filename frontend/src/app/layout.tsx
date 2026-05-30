@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { QueryProvider } from "@/components/query-provider";
+import { TopNav } from "@/components/layout/top-nav";
+import { Sidebar } from "@/components/layout/sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +40,13 @@ export default function RootLayout({
             enableSystem={false}
             disableTransitionOnChange
           >
-            {children}
+            <TopNav />
+            <div className="flex flex-1 pt-16">
+              <Sidebar />
+              <main className="flex-1 md:ml-64 w-full relative">
+                {children}
+              </main>
+            </div>
           </ThemeProvider>
         </QueryProvider>
       </body>
