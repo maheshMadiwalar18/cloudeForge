@@ -2,7 +2,7 @@
 
 **CloudForge DevOps** is an AI-powered platform that analyzes GitHub repositories and automatically generates production-ready infrastructure and deployment configurations.
 
-By utilizing static code scanning and LLMs (LangChain + OpenRouter), it seamlessly detects your tech stack and scaffolds:
+By scanning the code structure and configuration files, it automatically detects the technology stack and generates:
 - 🐳 **Dockerfiles** & **docker-compose.yml**
 - ♾️ **GitHub Actions CI/CD** pipelines
 - 🏗️ **Terraform** -- Infrastructure-as-Code
@@ -10,43 +10,93 @@ By utilizing static code scanning and LLMs (LangChain + OpenRouter), it seamless
 ---
 
 ## 🛠️ Tech Stack
-- **Backend Core**: FastAPI, Python 3.11, Pydantic, Uvicorn/
-- **AI / Parsing Engine**: LangChain, PyGithub, GitPython/
-- **Data & Message Queue**: PostgreSQL, Redis, Celery....
-- **Infrastructure**: AWS (EC2, S3), Terraform, Docker.
+- **Backend Core**: FastAPI, Python 3.11, Pydantic, Uvicorn
+- **AI / Scanner Engine**: PyGithub, GitPython
+- **Frontend Dashboard**: Next.js, React, TailwindCSS, Monaco Editor, Zustand
+- **Data & Message Queue**: PostgreSQL, Redis
+- **Infrastructure**: AWS (ECS, EC2, S3), Terraform, Docker
 
 ## 📁 Repository Structure
-- `backend/`: The FastAPI server containing the API routes, Git repository scanner, and LLM Orchestrator prompts.
-- `terraform/`: AWS infrastructure definitions (Security Groups, IAM Profiles, Auto-bootstrapped EC2).
-- `docker-compose.yml`: The local development stack orchestrating the API, Postgres, and Redis.
-- `docs/`: In-depth architectural designs, DevSecOps reports, and cost analyses....
+- `backend/`: FastAPI API server, repo scanner service, and unit tests.
+- `frontend/`: Next.js frontend web dashboard.
+- `terraform/`: Infrastructure-as-Code scripts for AWS resources.
+- `docker-compose.yml`: Multi-container configuration for backend, database, cache, and frontend.
+- `docs/`: Architecture designs, DevSecOps reports, and cost optimization analyses.
 
 ---
 
 ## 🚀 Getting Started
 
-### Local Development (Docker)
-The easiest way to spin up the entire application stack:
-```bash
-# Start the API, Database, and Cache in the background
-docker-compose up --build -d
-```
-Once running, the interactive API documentation will be available at: **http://localhost:8000/docs**
+### 🐳 Local Development (Docker Compose)
+To spin up the entire application stack (Database, Redis, FastAPI backend, and Next.js frontend):
+1. **Set up Environment variables**:
+   Create a `.env` in `backend/` using the template:
+   ```bash
+   cp backend/.env.example backend/.env
+   ```
+2. **Build and run**:
+   ```bash
+   docker-compose up --build -d
+   ```
+   - **Frontend UI**: [http://localhost:3000](http://localhost:3000)
+   - **Backend API**: [http://localhost:8000](http://localhost:8000)
+   - **Swagger API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-### Local Development (Native)
-If you prefer running the API locally without Docker:
+---
+
+### 💻 Local Development (Native Setup)
+
+If you prefer running services natively:
+
+#### 1. Start the Backend API
 ```bash
 cd backend
 python -m venv venv
+# On Windows (Powershell):
 .\venv\Scripts\activate
+# On Linux/macOS:
+source venv/bin/activate
+
 pip install -r requirements.txt
-uvicorn app.main:app --reload //////
+uvicorn app.main:app --reload
+```
+
+#### 2. Start the Next.js Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open **[http://localhost:3000](http://localhost:3000)** in your browser.
+
+---
+
+## 🧪 Testing and Linting
+
+We use unit tests and linting to ensure code quality.
+
+### Run Backend Unit Tests
+- **On Windows (PowerShell)**:
+  ```powershell
+  $env:PYTHONPATH="backend"
+  python -m unittest discover -s backend/tests
+  ```
+- **On Linux/macOS**:
+  ```bash
+  PYTHONPATH=backend pytest backend/tests/
+  ```
+
+### Run Backend Linter & Security Scan
+```bash
+# Linting
+flake8 backend
+# Static Security analysis (SAST)
+bandit -r backend -ll -ii
 ```
 
 ---
 
 ## 📚 Documentation
-Please refer to the `docs/` folder for comprehensive documentation created during the initial scaffolding:
 - **[System Architecture Design](docs/cloudforge_devops_architecture.md)**
 - **[DevSecOps Risk Analysis](docs/devsecops_analysis.md)**
 - **[Cloud Cost Optimization](docs/cost_optimization_analysis.md)**

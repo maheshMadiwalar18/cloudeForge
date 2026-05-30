@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Python Cache & Virtual Environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+env/
+.env
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Docker
+*.log
+
+# OS Metadata
+.DS_Store
+Thumbs.db

@@ -49,10 +49,15 @@ jobs:
           # -ll filters for medium/high severity, -ii filters for medium/high confidence
           bandit -r backend -ll -ii || echo "Bandit warnings detected."
           
+      - name: Run Gitleaks Secret Detection
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run Unit Tests
         run: |
           # Execute test suite
-          pytest backend/tests/ || echo "No tests configured yet, skipping."
+          PYTHONPATH=backend pytest backend/tests/
 
   # ---------------------------------------------
   # Job 2: Build, Container Security Scan, & Push

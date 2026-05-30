@@ -6,3 +6,9 @@ python-dotenv==1.0.1
 structlog==24.2.0
 GitPython==3.1.43
 PyGithub==2.3.0
+
+# Testing and Code Quality (Pinned)
+pytest==8.2.2
+pytest-mock==3.14.0
+flake8==7.0.0
+bandit==1.7.8

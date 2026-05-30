@@ -73,7 +73,7 @@ services:
       - ALL
 
   # ---------------------------------------------
-  # 4. Streamlit Frontend Service
+  # 4. Next.js Frontend Service
   # ---------------------------------------------
   frontend:
     build:
@@ -86,7 +86,7 @@ services:
     environment:
       - API_BASE_URL=http://backend:8000/api/v1
     ports:
-      - "8501:8501"
+      - "3000:3000"
     networks:
       - cloudforge-network
 
