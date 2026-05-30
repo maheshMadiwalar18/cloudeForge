@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { QueryProvider } from "@/components/query-provider";
 import { TopNav } from "@/components/layout/top-nav";
 import { Sidebar } from "@/components/layout/sidebar";
+import { Toast } from "@/components/ui/toast";
+import { AiAssistant } from "@/components/features/ai-assistant";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +49,8 @@ export default function RootLayout({
                 {children}
               </main>
             </div>
+            <Toast />
+            <AiAssistant />
           </ThemeProvider>
         </QueryProvider>
       </body>

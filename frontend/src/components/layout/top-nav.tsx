@@ -1,9 +1,14 @@
+"use client"
+
 import Link from "next/link"
 import { Cloud, Search, Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useStore } from "@/hooks/use-store"
 
 export function TopNav() {
+  const showToast = useStore((state) => state.showToast)
+
   return (
     <header className="h-16 border-b border-zinc-800/50 bg-zinc-950/80 backdrop-blur-xl fixed top-0 w-full z-50 flex items-center justify-between px-6">
       <div className="flex items-center gap-2">
@@ -24,13 +29,26 @@ export function TopNav() {
           <Input 
             type="text" 
             placeholder="Search projects..." 
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                showToast("Search is not implemented in demo mode.")
+              }
+            }}
             className="w-full bg-zinc-900/50 border-zinc-800 pl-9 h-9 text-sm focus-visible:ring-primary/50"
           />
         </div>
-        <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-zinc-100">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={() => showToast("You have no new notifications.")}
+          className="text-zinc-400 hover:text-zinc-100"
+        >
           <Bell className="w-5 h-5" />
         </Button>
-        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-500 border border-zinc-700 cursor-pointer" />
+        <div 
+          onClick={() => showToast("User profile is coming soon.")}
+          className="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-500 border border-zinc-700 cursor-pointer hover:opacity-90 transition-opacity" 
+        />
       </div>
     </header>
   )
