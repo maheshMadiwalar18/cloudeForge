@@ -100,3 +100,16 @@ bandit -r backend -ll -ii
 - **[System Architecture Design](docs/cloudforge_devops_architecture.md)**
 - **[DevSecOps Risk Analysis](docs/devsecops_analysis.md)**
 - **[Cloud Cost Optimization](docs/cost_optimization_analysis.md)**
+
+---
+
+## 🤝 Contributing & Open Source
+
+We welcome contributions from the open-source community! 
+
+Whether you want to fix a bug, suggest new features, or improve the documentation, please feel free to help make CloudForge better:
+- **Read our contributing guide** in [CONTRIBUTING.md](CONTRIBUTING.md) to understand our coding standards and pull request process.
+- **Report bugs or request features** by opening an issue using our [templates](.github/ISSUE_TEMPLATE/).
+- Make sure to review our [Security Policy](SECURITY.md) before reporting any potential vulnerabilities.
+
+Thank you for supporting open-source software!
