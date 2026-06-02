@@ -21,7 +21,7 @@ By scanning the code structure and configuration files, it automatically detects
 - `frontend/`: Next.js frontend web dashboard.
 - `terraform/`: Infrastructure-as-Code scripts for AWS resources.
 - `docker-compose.yml`: Multi-container configuration for backend, database, cache, and frontend.
-- `docs/`: Architecture designs, DevSecOps reports, and cost optimization analyses.
+- `docs/`: Architecture designs, DevSecOps reports, and cost optimization analyses....
 
 ---
 
