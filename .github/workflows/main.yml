@@ -50,7 +50,7 @@ jobs:
           bandit -r backend -ll -ii || echo "Bandit warnings detected."
           
       - name: Run Gitleaks Secret Detection
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
