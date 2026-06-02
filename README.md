@@ -5,7 +5,7 @@
 By scanning the code structure and configuration files, it automatically detects the technology stack and generates:
 - 🐳 **Dockerfiles** & **docker-compose.yml**
 - ♾️ **GitHub Actions CI/CD** pipelines
-- 🏗️ **Terraform** -- Infrastructure-as-Code
+- 🏗️ **Terraform** -- Infrastructure-as-Code....
 
 ---
 
