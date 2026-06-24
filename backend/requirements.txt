@@ -4,7 +4,7 @@ pydantic-settings==2.3.4
 pydantic==2.7.4
 python-dotenv==1.0.1
 structlog==24.2.0
-GitPython==3.1.43
+GitPython==3.1.50
 PyGithub==2.3.0
 
 # Testing and Code Quality (Pinned)
